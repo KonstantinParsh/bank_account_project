@@ -36,6 +36,7 @@ def test_deposit_positive_amount(account_with_balance):
     assert new_balance == 1500.0
     assert account_with_balance.get_balance() == 1500.0
 
+@pytest.mark.regression
 def test_deposit_negative_amount(account_with_balance):
     """Тестирует пополнение счета отрицательной суммой."""
     with pytest.raises(InvalidAmountError, match="должна быть больше нуля"):
@@ -50,12 +51,14 @@ def test_withdraw_valid_amount(account_with_balance):
     assert new_balance == 700.0
     assert account_with_balance.get_balance() == 700.0
 
+@pytest.mark.regression
 @pytest.mark.parametrize("amount", [1500.0, 2000.0, 10000.0])
 def test_withdraw_insufficient_funds(account_with_balance, amount):
     """Тестирует снятие суммы, превышающей баланс счета."""
     with pytest.raises(InsufficientFundsError, match="Недостаточно средств"):
         account_with_balance.withdraw(amount)
 
+@pytest.mark.regression
 @pytest.mark.parametrize("amount", [-100.0, -50.0, -1.0])
 def test_withdraw_negative_amount(account_with_balance, amount):
     """Тестирует снятие отрицательной суммы со счета."""
